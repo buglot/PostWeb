@@ -1,6 +1,7 @@
 "use client";
 
 import { TextField } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, ChangeEventHandler, useEffect, useRef, useState } from "react";
 
 
@@ -17,6 +18,7 @@ export default function Registerpage() {
     const [rePasswordValue, setRePasswordValue] = useState<string>('');
     const Email = useRef<HTMLInputElement>(null);
     const [check, setCheck] = useState<boolean>(false);
+    const nav = useRouter()
     async function submitRegister() {
         
         
@@ -26,9 +28,14 @@ export default function Registerpage() {
             method: "POST",
             body: JSON.stringify( data )
         })
+        const status = await reponse.status
         const datajson = await reponse.json()
-        console.log(datajson);
-        
+        if (status == 200) {
+            alert(datajson.message)
+            nav.push("/Auth/Login")
+        } else {
+            alert("Error")
+        }
     }
     useEffect(() => {
         if (rePasswordValue && passwordValue && rePasswordValue !== passwordValue) {

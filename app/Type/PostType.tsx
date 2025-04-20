@@ -4,13 +4,13 @@ enum Access {
     Public = "public",
     Follow = "follow",
 }
-enum Post{
+enum Post {
     Daily = "daily",
     Store = "store",
 }
 type TypeSelectPost = {
     value: string
-    label: string 
+    label: string
     icon?: JSX.Element
 }
 
@@ -19,9 +19,22 @@ type TypePostView = {
     Avatar: string;
     TypeofAccess: string;
     TypeofPost: string;
-    message: string
-    date: number;
+    Message: string
+    Date: number;
+    Images?: string[]
+    message?: string
 }
-
-export type { TypeSelectPost, TypePostView, }
-export {Post,Access}
+type CreatePostInput = {
+    Message: string
+    Accessname: string
+    TypeofPostname: string
+    Images: string[]
+}
+type Images = {
+    file: File;
+    path: string;
+    url: string;
+    uploaded: boolean;
+}
+export type { TypeSelectPost, TypePostView, Images ,CreatePostInput}
+export { Post, Access }

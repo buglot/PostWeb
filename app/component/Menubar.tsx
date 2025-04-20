@@ -13,10 +13,10 @@ export default function MenuNav() {
                 <input type="text" className="text-[16px] bg-red-900 p-1 rounded-md text-white"/>
             </div>
             <div className="flex gap-2 h-full">
-                <Link href={"/"} className=" w-[90px]  hover:bg-red-400 justify-center flex items-center">
+                <Link href={"/app"} className=" w-[90px]  hover:bg-red-400 justify-center flex items-center">
                     <HomeIcon />
                 </Link>
-                <Link href={"/Store"} className="w-[90px] hover:bg-red-400 justify-center flex items-center">
+                <Link href={"/app/Store"} className="w-[90px] hover:bg-red-400 justify-center flex items-center">
                     <StoreIcon/>
                 </Link>
             </div>
