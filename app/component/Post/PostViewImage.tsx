@@ -1,12 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PostViewImage({ Images }: { Images?: string[] }) {
+   
+    const [postImages, setPostImages] = useState<string[]>([])
     if (!Images || Images.length === 0) {
-        return;
+        return null;
     }
+    useEffect(() => {
+        const loadImg = async () => {
+            const image = await Promise.all(
+                Images.map(async (value) => {
+                    return new Promise<string>(async (resolve, reject) => {
+                        const responese = await fetch(process.env.NEXT_PUBLIC_API_URL + value, {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("token")}`
+                            }
+                        })
+                        const data = await responese.blob();
+                        const status = await responese.status
+                        if (status == 200) {
+                            const url = URL.createObjectURL(data);
+                            resolve(url)
+                        } else {
+                            reject("error")
+                        }
+                    }
+                    )
+                })
+            )
+            setPostImages(image)
+        }
+        loadImg()
+    }, [])
+
     const [slideIndex, setSlideIndex] = useState(1);
+    
     const plusDivs = (n: number) => {
         let newIndex = slideIndex + n;
         if (newIndex > Images.length) newIndex = 1;
@@ -30,7 +60,7 @@ export default function PostViewImage({ Images }: { Images?: string[] }) {
                         &#10095;
                     </button>
                 </div>
-                {Images.map((src, i) => (
+                {postImages.map((src, i) => (
                     <img
                         key={i}
                         src={src}

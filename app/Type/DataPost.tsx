@@ -23,8 +23,8 @@ const DataOfPost: TypeSelectPost[] = [
         icon: <DatasetIcon />
     },
     {
-        value: Post.Store,
-        label: 'Store',
+        value: Post.Shop,
+        label: 'Shop',
         icon: <StoreIcon />
     },
 ];

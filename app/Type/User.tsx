@@ -2,13 +2,15 @@
 import { createContext } from "react";
 
 export type User = {
-    token?: string | null;
-    username?: string| null;
-    url?: string| null;
+  Email : string 
+  Username?: string | null;
+  Url?: string;
+  Avatar: string;
 }
 export const defaultUser: User = {
-    token: "",
-    username: "",
-    url: "",
-  };
-export const DataUser = createContext<User>(defaultUser)
+  Email:"",
+  Username: "",
+  Url: "",
+  Avatar:"",
+};
+export const UserData = createContext<User>(defaultUser);

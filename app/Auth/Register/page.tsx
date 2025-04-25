@@ -2,7 +2,7 @@
 
 import { TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, ChangeEventHandler, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 
 type registerType = {

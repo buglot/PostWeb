@@ -43,7 +43,7 @@ export default function LoginPage() {
                         <button type="submit" className="w-[70px] h-[50px] bg-blue-400 text-black font-bold rounded-md">Login</button>
                     </div>
                 </form>
-                <Link href={"/Auth/Register"} className=" text-sm hover:underline">I don't have account</Link>
+                <Link href={"/Auth/Register"} className=" text-sm hover:underline">I don&apost have account</Link>
             </div>
             
         </div>

@@ -6,7 +6,7 @@ enum Access {
 }
 enum Post {
     Daily = "daily",
-    Store = "store",
+    Shop = "shop",
 }
 type TypeSelectPost = {
     value: string
@@ -28,7 +28,7 @@ type CreatePostInput = {
     Message: string
     Accessname: string
     TypeofPostname: string
-    Images: string[]
+    Images?: string[]
 }
 type Images = {
     file: File;

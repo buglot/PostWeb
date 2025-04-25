@@ -1,16 +1,17 @@
-import { Button, FormControl, Paper, Select } from "@mui/material";
+import { Button, FormControl,  Select } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import SendIcon from '@mui/icons-material/Send';
 import { DataOfAccess, DataOfPost } from "@/app/Type/DataPost";
-import { CreatePostInput, Images, TypePostView } from "../../Type/PostType";
+import { CreatePostInput, Images } from "../../Type/PostType";
 import { useEffect, useRef, useState } from "react";
 import PostBoxImage from "./PostBoxImage";
 
 export default function PostBox() {
     const [Images, setImagesUrl] = useState<Images[]>([]);
-    const access = useRef<React.JSX.Element>(null);
-    const typepost = useRef<React.JSX.Element>(null);
+    const access = useRef<HTMLInputElement>(null);
+    const typepost = useRef<HTMLInputElement>(null);
+    const message = useRef<HTMLInputElement>(null);
     const MAX_IMAGES = 5;
     useEffect(() => {
         const handlePaste = (event: ClipboardEvent) => {
@@ -40,56 +41,43 @@ export default function PostBox() {
             window.removeEventListener('paste', handlePaste);
         };
     }, [])
-    useEffect(() => {
-        const uploadImages = async () => {
-            const updatedImages = await Promise.all(
-                Images.map(async (img) => {
-                    if (img.uploaded) return img;
-                    const formData = new FormData();
-                    formData.append("image", img.file);
-                    try {
-                        const response = await fetch(process.env.NEXT_PUBLIC_API_URL+"/imgupload", {
-                            method: "POST",
-                            body: formData,
-                        });
-                        if (!response.ok) {
-                            throw new Error("Failed to upload image");
-                        }
-                        const result = await response.json();
-                        return { ...img, url: result.url, uploaded: true };
-                    } catch (error) {
-                        alert("Upload failed: " + (error as Error).message);
-                        return img;
-                    }
-                })
-            );
-            setImagesUrl(updatedImages);
-        };
-        if (Images.length > 0) {
-            uploadImages();
-        }
-    }, [Images])
+    
     async function Submit() {
         const token = localStorage.getItem("token")
         const post: CreatePostInput = {
-            
+            Message: message.current!.value,
+            Accessname: access.current!.value,
+            TypeofPostname: typepost.current!.value
         }
-        const response = fetch(process.env.NEXT_PUBLIC_API_URL + "/post", {
+        if (Images.length > 0) {
+            const urls: string[] = Images.map(img => img.url);
+            post.Images = urls
+        }
+        console.log(JSON.stringify(post))
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/Post", {
             method: "POST",
             headers: {
-                "Authorization":`Bearer ${token}`
+                "Authorization": `Bearer ${token}`
             },
-            body:JSON.stringify({})
-        })
+            body: JSON.stringify(post)
+        });
+        const status = await response.status
+        const data = await response.json()
+        if (status == 201) {
+            window.location.reload()
+        } else {
+            console.log(data.messeage);
+            
+        }
     }
     return (
-        <div className=" w-full md:w-1/2 p-2 rounded-md gap-3 flex flex-col">
+        <form onSubmit={(e) => { e.preventDefault(); Submit(); }} className=" w-full md:w-1/2 p-2 rounded-md gap-3 flex flex-col">
             <div className=" flex justify-between">
                 <a className=" text-xl">Post</a>
                 <div className=" flex gap-4">
                     <FormControl sx={{ minWidth: 120 }} size="small">
                         <Select
-                            ref={typepost}
+                            inputRef={access}
                             id="filled-basic"
                             defaultValue="public"
                         >
@@ -102,7 +90,7 @@ export default function PostBox() {
                     </FormControl>
                     <FormControl sx={{ minWidth: 120 }} size="small">
                         <Select
-                            ref={access}
+                            inputRef={typepost}
                             id="filled-basic"
                             defaultValue="daily"
                         >
@@ -116,6 +104,7 @@ export default function PostBox() {
                 </div>
             </div>
             <TextField
+                inputRef={message}
                 id="filled-textarea"
                 placeholder="Let's post!"
                 multiline
@@ -126,9 +115,9 @@ export default function PostBox() {
                 minRows={7}
             ></TextField>
             <PostBoxImage Images={Images} setImagesUrl={setImagesUrl} />
-            <Button variant="contained" endIcon={<SendIcon color="secondary" />}>
+            <Button type="submit" variant="contained" endIcon={<SendIcon color="secondary" />}>
                 Send
             </Button>
-        </div>
+        </form>
     )
 }
