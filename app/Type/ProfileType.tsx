@@ -1,3 +1,4 @@
+import { createContext } from "react";
 
 type GetProfile = {
     Username: string;
@@ -7,4 +8,5 @@ type GetProfile = {
     IsMyProfile: boolean;
 }
 
+export const GetProfileContext = createContext<GetProfile>({Username:"",Email:"",Url:"",Avatar:"",IsMyProfile:false})
 export type {GetProfile}

@@ -66,7 +66,7 @@ export default function PostBoxImage({ Images, setImagesUrl }: { Images: Images[
             {Images.map((src, index) => (
                 <div key={index} className=" w-[100px] h-[100px] ">
                     {uploadProgress[index] < 100 && <CircularProgress variant="determinate" sx={{ position: "absolute" }} value={uploadProgress[index]} />}
-                    <Image
+                    <img
                         src={src.path}
                         alt={`Pasted ${index}`}
                         className="border rounded w-full h-full"

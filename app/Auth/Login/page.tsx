@@ -13,6 +13,7 @@ export default function LoginPage() {
     const username = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
     const nav = useRouter()
+    
     async function submitLogin() {
         const data: LoginType = { Username: username.current!.value, Password: password.current!.value, Email: username.current!.value }
         const reponse = await fetch("http://localhost:8080/login", {

@@ -1,32 +1,36 @@
 "use client"
 import { useContext, useEffect, useState } from 'react'
 import ProfileView from '../conponent/Profileside';
-import { GetProfile } from '@/app/Type/ProfileType';
+import { GetProfile, GetProfileContext } from '@/app/Type/ProfileType';
 import { ErrorType } from '@/app/Type/Error';
 import { NotifyContext } from '@/app/Type/notify';
 import { useParams, useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
+import ProfilePost from '../conponent/ProfilePost';
+import DefaultPage from '../conponent/defaultPage';
+import ProfileImage from '../conponent/img/ProfileImage';
 export default function PageProfile() {
-    const {url} = useParams<{url:string}>();
-    const [data, setData] = useState<GetProfile>();
+    const { url } = useParams<{ url: string }>();
+    const [data, setData] = useState<GetProfile>({ Username: "", Email: "", Url: "", Avatar: "", IsMyProfile: false });
     const noti = useContext(NotifyContext)
     const searchParams = useSearchParams()
     const search = searchParams.get('page')
-    console.log(search);
     useEffect(() => {
         const getdataprofile = async () => {
             try {
                 const data = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/ProfileUrl?url=" + url, {
                     headers: {
-                        Authorization:"Bearer "+ localStorage.getItem("token")
+                        Authorization: "Bearer " + localStorage.getItem("token")
                     }
                 })
-                const status =await data.status
+                const status = await data.status
+
                 if (status == 200) {
-                    
+                    const respones: GetProfile = await data.json()
+                    setData(respones)
                 } else {
-                    const respones:ErrorType = await data.json()
-                    throw new Error( respones.message)
+                    const respones: ErrorType = await data.json()
+                    throw new Error(respones.message)
                 }
             } catch (error: any) {
                 noti.setNotify(true);
@@ -36,7 +40,19 @@ export default function PageProfile() {
         getdataprofile();
     }, [])
     return (
-        <div className=" flex ">
-            <ProfileView />
-        </div>);
+        <GetProfileContext.Provider value={data}>
+            <div className=" flex flex-col md:flex-row">
+                <ProfileView />
+                <DefaultPage>
+                    {search == null || search == "post" ?
+                        <ProfilePost /> : ""
+                    }
+                    {search == "images" ?
+                        <ProfileImage /> : ""
+                    }
+                </DefaultPage>
+
+            </div>
+        </GetProfileContext.Provider>
+    );
 }
