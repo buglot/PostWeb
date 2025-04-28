@@ -3,9 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./Theme/theme"
-import MenuNav from "./component/Menubar";
-import { DataUser, User } from "./Type/User";
-import { useEffect } from "react";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

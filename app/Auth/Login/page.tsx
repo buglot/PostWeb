@@ -13,6 +13,7 @@ export default function LoginPage() {
     const username = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
     const nav = useRouter()
+    
     async function submitLogin() {
         const data: LoginType = { Username: username.current!.value, Password: password.current!.value, Email: username.current!.value }
         const reponse = await fetch("http://localhost:8080/login", {
@@ -43,7 +44,7 @@ export default function LoginPage() {
                         <button type="submit" className="w-[70px] h-[50px] bg-blue-400 text-black font-bold rounded-md">Login</button>
                     </div>
                 </form>
-                <Link href={"/Auth/Register"} className=" text-sm hover:underline">I don't have account</Link>
+                <Link href={"/Auth/Register"} className=" text-sm hover:underline">I don&apost have account</Link>
             </div>
             
         </div>

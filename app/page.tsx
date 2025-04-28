@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
-  const nav = useRouter();
+ 
   useEffect(() => {
     const check = async () => {
       const token = localStorage.getItem('token')
@@ -13,20 +13,17 @@ export default function Home() {
           "Authorization": `Bearer ${token}`,
         }
       })
-      const response = await data.json()
       const status = await data.status
       if (status != 200) {
+        
         nav.push("/Auth/Login", { scroll: false })
       } else {
         nav.push("/app", { scroll: false })
       }
+      return
     }
     check()
   }, [])
-  return (
-    <div>
-
-    </div>
-
-  );
+  const nav = useRouter();
+  return;
 }

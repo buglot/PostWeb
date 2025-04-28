@@ -1,6 +1,5 @@
 "use client";
-
-const { createTheme } = require("@mui/material");
+import  { createTheme } from "@mui/material";
 
 const theme = createTheme({
   palette: {

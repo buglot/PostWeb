@@ -2,14 +2,14 @@
 
 import { TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, ChangeEventHandler, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 
 type registerType = {
     Username: string | undefined;
     Password: string | undefined;
     Email: string | undefined;
-
+    Avatar: string;
 };
 
 export default function Registerpage() {
@@ -20,9 +20,7 @@ export default function Registerpage() {
     const [check, setCheck] = useState<boolean>(false);
     const nav = useRouter()
     async function submitRegister() {
-        
-        
-        const data: registerType = { Username: username.current!.value, Password: passwordValue, Email: Email.current!.value }
+        const data: registerType = { Username: username.current!.value, Password: passwordValue, Email: Email.current!.value ,Avatar:process.env.NEXT_PUBLIC_API_URL+"/img/public/profile.png"}
         console.log(JSON.stringify( data ));
         const reponse = await fetch("http://localhost:8080/register", {
             method: "POST",

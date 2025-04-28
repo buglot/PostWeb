@@ -1,23 +1,19 @@
 "use client"
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PostBox from "./PostBox"
 import PostView from "./PostView"
-import { DataUser } from "@/app/Type/User";
 import Lock from "@/app/component/notify/lock"
 import { TypePostView } from "@/app/Type/PostType";
 import Link from "next/link";
 
 export default function Post() {
-    const dataUser = useContext(DataUser);
     const [notify, setNotify] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>();
     const [dataPost, setDataPost] = useState<TypePostView[]>([])
     async function getPost() {
         try {
             const token = localStorage.getItem('token')
-            console.log(token, dataUser);
-
             const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/getPost`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -26,17 +22,17 @@ export default function Post() {
             const response = await data.json()
             const status = await data.status
             if (status != 200) {
-                setNotify(true);
-                setErrorMsg(response.message);
+                
+                throw new Error(response.message)
             } else {
                 setNotify(false);
                 console.log(response);
-
                 setDataPost(response)
             }
 
-        } catch (error: any) {
-
+        } catch (error:any) {
+            setErrorMsg(error.message);
+            setNotify(true);
         }
     }
     useEffect(() => {
