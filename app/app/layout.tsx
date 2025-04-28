@@ -11,7 +11,7 @@ export default function HomeLayout({ children }: Readonly<{ children: React.Reac
     const [data, setData] = useState<User>(defaultUser)
     const [nofi, setNotify] = useState<boolean>(false);
     const [msgError, setMsgError] = useState<string>("");
-    const no:notifyType = {setNotify,setMsgError}
+    const no: notifyType = { setNotify, setMsgError }
     useEffect(() => {
         const getdata = async () => {
             try {
@@ -39,16 +39,19 @@ export default function HomeLayout({ children }: Readonly<{ children: React.Reac
     return (
         <NotifyContext.Provider value={no} >
             <UserData.Provider value={data}>
-                <Lock show={nofi}>
-                    <div className=" flex justify-center items-center h-full gap-3">
-                        {msgError}
-                        <Link href={"/Auth/Login"} className=" bg-red-700 p-3 w-[120px] rounded hover:bg-red-900 active:hover:bg-red-800">
-                            Login
-                        </Link>
-                    </div>
-                </Lock>
-                <MenuNav />
-                {children}
+                <div className="flex flex-col min-h-screen">
+                    <Lock show={nofi}>
+                        <div className=" flex justify-center items-center h-full gap-3">
+                            {msgError}
+                            <Link href={"/"} className=" bg-red-700 p-3 w-[120px] rounded hover:bg-red-900 active:hover:bg-red-800">
+                                Back
+                            </Link>
+                        </div>
+                    </Lock>
+                    <MenuNav />
+                    {children}
+                </div>
+
             </UserData.Provider>
         </NotifyContext.Provider>
 

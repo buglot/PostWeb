@@ -27,7 +27,6 @@ export default function Post() {
             } else {
                 setNotify(false);
                 console.log(response);
-                
                 setDataPost(response)
             }
 

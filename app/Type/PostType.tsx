@@ -17,6 +17,7 @@ type TypeSelectPost = {
 type TypePostView = {
     Name: string;
     UserUrl: string;
+    Url:string
     Avatar: string;
     TypeofAccess: string;
     TypeofPost: string;
@@ -24,7 +25,9 @@ type TypePostView = {
     Date: number;
     Images?: string[]
     message?: string
-    IsMyPost : boolean
+    IsMyPost: boolean
+    IntLike: number
+    Liked:boolean
 }
 type CreatePostInput = {
     Message: string
