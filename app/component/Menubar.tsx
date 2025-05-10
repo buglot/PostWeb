@@ -29,9 +29,6 @@ export default function MenuNav() {
                 </Link>
                 <Link href={`/app/Profile/${data.Url}`} className=" w-[90px]  hover:bg-red-400 justify-center flex items-center">
                     <AccountCircleIcon />
-                    {data.Avatar!=="" ? (
-                        <img src={data.Avatar} alt="profile" />
-                    ) : null}
                 </Link>
             </div>
         </nav>

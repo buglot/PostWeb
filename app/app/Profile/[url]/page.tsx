@@ -11,7 +11,7 @@ import DefaultPage from '../conponent/defaultPage';
 import ProfileImage from '../conponent/img/ProfileImage';
 export default function PageProfile() {
     const { url } = useParams<{ url: string }>();
-    const [data, setData] = useState<GetProfile>({ Username: "", Email: "", Url: "", Avatar: "", IsMyProfile: false });
+    const [data, setData] = useState<GetProfile>({ Username: "", Follow: 0, Following: 0, Followed: false, Email: "", Url: "", Avatar: "", IsMyProfile: false });
     const noti = useContext(NotifyContext)
     const searchParams = useSearchParams()
     const search = searchParams.get('page')

@@ -20,7 +20,7 @@ export default function useWebSocket(token: string|null,onMessage: (message: str
     };
 
     ws.current.onerror = (error: Event) => {
-      console.error("WebSocket error:", error);
+      console.log("WebSocket error:", error);
     };
 
     ws.current.onclose = () => {
