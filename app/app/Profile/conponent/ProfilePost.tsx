@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function ProfilePost() {
     const [data, setData] = useState<TypePostView[]>([])
+    
     const { url } = useParams<{ url: string }>();
     useEffect(() => {
         const getdata = async () => {
@@ -41,6 +42,10 @@ export default function ProfilePost() {
                 <PostView props={value} key={index} />
 
             ))}
+            {data.length == 0 &&
+                <div>
+                    You don&apost have a post
+                </div>}
             <span className=" h-[60px]"></span>
 
 

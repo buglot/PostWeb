@@ -18,6 +18,7 @@ export default function PostBoxImage({ Images, setImagesUrl }: { Images: Images[
                 Images.map(async (img, index) => {
                     if (img.uploaded) return img
                     const formData = new FormData()
+                    if(img.file!=null)
                     formData.append("image", img.file)
                     return new Promise<Images>((resolve) => {
                         const xhr = new XMLHttpRequest()
@@ -37,11 +38,13 @@ export default function PostBoxImage({ Images, setImagesUrl }: { Images: Images[
                                     uploaded: true,
                                 })
                             } else {
+                                if(img.file!=null)
                                 alert(`Upload failed for ${img.file.name}`)
                                 resolve(img)
                             }
                         }
                         xhr.onerror = () => {
+                            if(img.file!=null)
                             alert(`Upload error for ${img.file.name}`)
                             resolve(img)
                         }

@@ -36,7 +36,7 @@ type CreatePostInput = {
     Images?: string[]
 }
 type Images = {
-    file: File;
+    file: File|null;
     path: string;
     url: string;
     uploaded: boolean;

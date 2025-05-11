@@ -3,25 +3,58 @@
 import { GetProfileContext } from "@/app/Type/ProfileType"
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
-import { useContext } from "react"
+import { useContext, useEffect, useRef} from "react"
 export default function ProfileView() {
     const data = useContext(GetProfileContext)
     const pathname = usePathname()
-     const { url } = useParams<{ url: string }>();
+    const { url } = useParams<{ url: string }>();
     const follow = async () => {
         const respones = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/follow", {
             method: "POST",
             headers: {
                 Authorization: "Bearer " + window.localStorage.getItem("token")
             },
-            body:JSON.stringify({Url:url})
+            body: JSON.stringify({ Url: url })
         })
         await respones.json();
     }
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+
+    // Upload function
+    async function upload(file: File) {
+        const formData = new FormData();
+        formData.append('profile', file);
+
+        try {
+            const res = await fetch('/api/upload/profile', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await res.json();
+            console.log('Upload success:', result);
+        } catch (err) {
+            console.error('Upload failed:', err);
+        }
+    }
+    useEffect(() => {
+        const input = inputRef.current;
+        if (!input) return;
+
+        const handleFileChange = () => {
+            const file = input.files?.[0];
+            if (!file) return;
+            upload(file);
+        };
+
+        input.addEventListener('change', handleFileChange);
+        return () => input.removeEventListener('change', handleFileChange);
+    }, []);
     return (
         <div className=" p-2 bg-white w-full md:w-1/3 md:fixed md:h-full flex md:flex-col gap-2 text-black">
             <div typeof="button" className=" group relative flex justify-center items-center flex-col ">
-                <a className=" absolute invisible group-hover:visible gap-2  w-full h-full flex justify-center items-center z-20  text-6xl">+</a>
+                <input type="file" ref={inputRef} id="inputaddprofile" className="hidden" />
+                <label htmlFor="inputaddprofile" className=" absolute invisible group-hover:visible gap-2  w-full h-full flex justify-center items-center z-20  text-6xl">+</label>
                 {data.Avatar ? <img src={data.Avatar} alt="" className="p-2 bg-red-500  group-hover:opacity-50  w-[250px] h-[250px] rounded-full object-fill" /> : null}
             </div>
             <div className=" flex flex-col items-center gap-1">
