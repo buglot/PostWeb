@@ -12,7 +12,7 @@ export default function PostViewImage({ Images }: { Images: string[] }) {
                     return new Promise<string>(async (resolve, reject) => {
                         const responese = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/img/"+value, {
                             headers: {
-                                Authorization: `Bearer ${localStorage.getItem("token")}`
+                                Authorization: `Bearer ${window.localStorage.getItem("token")}`
                             }
                         })
                         const data = await responese.blob();

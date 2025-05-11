@@ -1,9 +1,8 @@
 "use client"
-import { useParams } from "next/navigation";
 import ImgBox from "./imgbox";
 
 export default function ProfileImage() {
-    const { url } = useParams<{ url: string }>();
+    //const { url } = useParams<{ url: string }>();
 
     return (
         <div className="flex flex-wrap gap-1 w-full">

@@ -4,14 +4,14 @@ import ProfileView from '../conponent/Profileside';
 import { GetProfile, GetProfileContext } from '@/app/Type/ProfileType';
 import { ErrorType } from '@/app/Type/Error';
 import { NotifyContext } from '@/app/Type/notify';
-import { useParams, useRouter } from 'next/navigation'
+import { useParams} from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import ProfilePost from '../conponent/ProfilePost';
 import DefaultPage from '../conponent/defaultPage';
 import ProfileImage from '../conponent/img/ProfileImage';
 export default function PageProfile() {
     const { url } = useParams<{ url: string }>();
-    const [data, setData] = useState<GetProfile>({ Username: "", Email: "", Url: "", Avatar: "", IsMyProfile: false });
+    const [data, setData] = useState<GetProfile>({ Username: "", Follow: 0, Following: 0, Followed: false, Email: "", Url: "", Avatar: "", IsMyProfile: false });
     const noti = useContext(NotifyContext)
     const searchParams = useSearchParams()
     const search = searchParams.get('page')
@@ -20,7 +20,7 @@ export default function PageProfile() {
             try {
                 const data = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/ProfileUrl?url=" + url, {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token")
+                        Authorization: "Bearer " + window.localStorage.getItem("token")
                     }
                 })
                 const status = await data.status

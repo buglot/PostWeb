@@ -2,7 +2,6 @@
 import PostViewImage from "@/app/component/Post/PostViewImage";
 import { DataOfAccess } from "@/app/Type/DataPost";
 import { Access, Post, TypePostView } from "@/app/Type/PostType";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Comment from "../component/Comment";
@@ -36,7 +35,7 @@ export default function PagePost() {
         const post = async() => {
             const responese = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/PostUrl?url=" + url, {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token"),
+                    Authorization: "Bearer " + window.localStorage.getItem("token"),
                 }
             })
             const status = await responese.status

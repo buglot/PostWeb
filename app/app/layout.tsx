@@ -17,7 +17,7 @@ export default function HomeLayout({ children }: Readonly<{ children: React.Reac
             try {
                 const responese = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/Profile", {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token")
+                        Authorization: "Bearer " + window.localStorage.getItem("token")
                     }
                 })
                 const status = await responese.status
@@ -39,7 +39,7 @@ export default function HomeLayout({ children }: Readonly<{ children: React.Reac
     return (
         <NotifyContext.Provider value={no} >
             <UserData.Provider value={data}>
-                <div className="flex flex-col min-h-screen">
+                <div className="flex flex-col w-screen min-h-screen">
                     <Lock show={nofi}>
                         <div className=" flex justify-center items-center h-full gap-3">
                             {msgError}
