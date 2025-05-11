@@ -23,7 +23,8 @@ export default function LoginPage() {
         const datajson = await reponse.json()
         const status = await reponse.status
         if (status == 200) {
-            localStorage.setItem("token",datajson.token)
+            
+            window.localStorage.setItem("token",datajson.token)
             nav.push("/app",{scroll:true})
         } else {
             alert(datajson.message)

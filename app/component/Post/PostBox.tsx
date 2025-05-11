@@ -43,7 +43,7 @@ export default function PostBox() {
     }, [])
     
     async function Submit() {
-        const token = localStorage.getItem("token")
+        const token = window.localStorage.getItem("token")
         const post: CreatePostInput = {
             Message: message.current!.value,
             Accessname: access.current!.value,

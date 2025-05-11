@@ -2,7 +2,6 @@
 
 import { Images } from "@/app/Type/PostType"
 import CircularProgress from "@mui/material/CircularProgress"
-import Image from "next/image"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 export default function PostBoxImage({ Images, setImagesUrl }: { Images: Images[], setImagesUrl: Dispatch<SetStateAction<Images[]>> }) {
@@ -13,7 +12,7 @@ export default function PostBoxImage({ Images, setImagesUrl }: { Images: Images[
         if (notUploaded.length === 0) return;
 
         const uploadImages = async () => {
-            const token = localStorage.getItem("token")
+            const token = window.localStorage.getItem("token")
 
             const updatedImages = await Promise.all(
                 Images.map(async (img, index) => {

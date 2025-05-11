@@ -17,7 +17,7 @@ export default function HomeLayout({ children }: Readonly<{ children: React.Reac
             try {
                 const responese = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/Profile", {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token")
+                        Authorization: "Bearer " + window.localStorage.getItem("token")
                     }
                 })
                 const status = await responese.status

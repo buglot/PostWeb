@@ -13,10 +13,9 @@ export default function Post() {
     const [dataPost, setDataPost] = useState<TypePostView[]>([])
     async function getPost() {
         try {
-            const token = localStorage.getItem('token')
             const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/getPost`, {
                 headers: {
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer `+window.localStorage.getItem('token'),
                 }
             })
             const response = await data.json()
@@ -27,7 +26,7 @@ export default function Post() {
             } else {
                 setNotify(false);
                 console.log(response);
-                setDataPost(response)
+                setDataPost(response?response:[])
             }
 
         } catch (error:any) {
@@ -39,7 +38,7 @@ export default function Post() {
         getPost();
     }, [])
     return (
-        <div className="w-full sd:3/4 md:1/2 p-5 flex flex-col items-center justify-center gap-3">
+        <div className="w-full sd:3/4 md:1/2 p-5 flex flex-col items-center gap-3">
             <Lock show={notify}>
                 <div className=" flex justify-center items-center h-full gap-3">
                     {errorMsg}

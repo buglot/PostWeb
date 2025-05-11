@@ -3,7 +3,7 @@
 import { GetProfileContext } from "@/app/Type/ProfileType"
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 export default function ProfileView() {
     const data = useContext(GetProfileContext)
     const pathname = usePathname()
@@ -12,17 +12,17 @@ export default function ProfileView() {
         const respones = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/follow", {
             method: "POST",
             headers: {
-                Authorization: "Bearer " + localStorage.getItem("token")
+                Authorization: "Bearer " + window.localStorage.getItem("token")
             },
             body:JSON.stringify({Url:url})
         })
-        const data = await respones.json();
+        await respones.json();
     }
     return (
         <div className=" p-2 bg-white w-full md:w-1/3 md:fixed md:h-full flex md:flex-col gap-2 text-black">
             <div typeof="button" className=" group relative flex justify-center items-center flex-col ">
                 <a className=" absolute invisible group-hover:visible gap-2  w-full h-full flex justify-center items-center z-20  text-6xl">+</a>
-                {data.Avatar ? <img src={data.Avatar} className="p-2 bg-red-500  group-hover:opacity-50  w-[250px] h-[250px] rounded-full object-fill" /> : null}
+                {data.Avatar ? <img src={data.Avatar} alt="" className="p-2 bg-red-500  group-hover:opacity-50  w-[250px] h-[250px] rounded-full object-fill" /> : null}
             </div>
             <div className=" flex flex-col items-center gap-1">
                 <a className=" text-white text-xl p-2 bg-red-500 rounded-2xl">{data.Username}</a>

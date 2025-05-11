@@ -1,20 +1,16 @@
 
 import BoxFriend from "./boxfriend";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import useWebSocket from "@/app/websocket/websocket";
 import { friend } from "@/app/Type/friend";
 
 export default function Friendside() {
-    const [token, setToken] = useState<string | null>(null);
-    const [receivedMessages, setReceivedMessages] = useState<string[]>([]);
     const [dataFriend, setFriend] = useState<friend[]>([])
     useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        setToken(storedToken);
         const getFriend = async () => {
             const response = fetch(process.env.NEXT_PUBLIC_FRIEND_URL + "", {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token")
+                    Authorization: "Bearer " + window.localStorage.getItem("token")
                 }
             })
             const status = (await response).status;
@@ -28,10 +24,10 @@ export default function Friendside() {
         getFriend();
     }, []);
     const handleMessage = (message: string) => {
-        setReceivedMessages((prevMessages) => [...prevMessages, message]);
         console.log(message);
     };
-    const { sendMessage } = useWebSocket(localStorage.getItem("token"), handleMessage);
+    useWebSocket(handleMessage);
+    
     return (
         <div className="flex w-1/6 h-screen flex-col">
             <div className=" w-full ">

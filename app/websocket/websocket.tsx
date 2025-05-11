@@ -1,12 +1,10 @@
 import { useEffect, useRef } from "react";
 
 
-export default function useWebSocket(token: string|null,onMessage: (message: string) => void) {
+export default function useWebSocket(onMessage: (message: string) => void) {
   const ws = useRef<WebSocket | null>(null);
-  console.log("hi");
-  
   useEffect(() => {
-    const socketUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL + `?token=${token}`;
+    const socketUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL + `?token=`+localStorage.getItem("token");
     ws.current = new WebSocket(socketUrl);
 
     ws.current.onopen = () => {
@@ -30,7 +28,7 @@ export default function useWebSocket(token: string|null,onMessage: (message: str
     return () => {
       ws.current?.close();
     };
-  }, [token]);
+  }, []);
 
   const sendMessage = (msg: string) => {
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {

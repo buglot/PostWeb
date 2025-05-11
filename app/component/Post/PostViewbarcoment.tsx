@@ -17,7 +17,7 @@ export default function PostViewComment({ type, like, url, nlike }: { type: stri
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/like", {
             method: "POST",
             headers: {
-                Authorization: "Bearer " + localStorage.getItem("token")
+                Authorization: "Bearer " + window.localStorage.getItem("token")
             },
             body: JSON.stringify({ url: url })
         })

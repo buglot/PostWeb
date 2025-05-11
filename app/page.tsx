@@ -7,10 +7,9 @@ export default function Home() {
  
   useEffect(() => {
     const check = async () => {
-      const token = localStorage.getItem('token')
       const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/getPost`, {
         headers: {
-          "Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${window.window.localStorage.getItem('token')}`,
         }
       })
       const status = await data.status

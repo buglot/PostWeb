@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql
+    container_name: my-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456789
+      - MYSQL_DATABASE=post
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - web_api
+
+  api:
+    image: ptii2x/postwebapi:latest
+    container_name: myapi
+    ports:
+      - 8080:8080
+    networks:
+      - web_api
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+  websocket:
+    image: ptii2x/postwebsocket
+    container_name: socket
+    ports:
+      - 8081:8081
+      - 8082:8082
+    networks:
+      - web_api
+    depends_on:
+      - api
+    env_file:
+      - .env
+  web:
+    image: ptii2x/postweb
+    ports:
+      - 3000:3000
+    depends_on:
+      - websocket
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_WEBSOCKET_URL=ws://localhost:8081/ws
+      - NEXT_PUBLIC_FRIEND_URL=http://localhost:8082/auth/friend
+
+networks:
+  web_api:
+    driver: bridge
+volumes:
+  mysql_data:
