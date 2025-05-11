@@ -72,13 +72,20 @@ export default function Edit() {
         post();
     }, [])
     const deleteimg = (url: string) => {
-        setProps((data) => ({ ...data, Images: data.Images?.filter((url) => url != url) }))
+        setProps((data) => ({ ...data, Images: data.Images?.filter((url1) => url1 != url) }))
         setPostImages((data) => (data.filter((v) => v.url != url)))
     }
     if (loading) {
         return <div className=" flex flex-1 text-5xl items-center justify-center">Loading...</div>
     }
     async function save() {
+        console.log({
+            message: props.Message,
+            typeofPostname: props.TypeofPost,
+            accessname: props.TypeofAccess,
+            images: props.Images,
+            Url:props.Url
+        })
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/edit", {
             method: "POST",
             headers: {
@@ -88,7 +95,7 @@ export default function Edit() {
                 message: props.Message,
                 typeofPostname: props.TypeofPost,
                 accessname: props.TypeofAccess,
-                image: props.Images,
+                images: props.Images,
                 Url:props.Url
             })
         })

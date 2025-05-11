@@ -16,7 +16,6 @@ export default function SideBar() {
                 ) : null}
                 {data.Username}
             </Link >
-            <a className="flex">Desboard</a>
         </div>
     )
 }

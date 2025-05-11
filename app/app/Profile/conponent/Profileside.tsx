@@ -24,11 +24,14 @@ export default function ProfileView() {
     // Upload function
     async function upload(file: File) {
         const formData = new FormData();
-        formData.append('profile', file);
-
+        formData.append('image', file);
+        formData.append('data',JSON.stringify({url:process.env.NEXT_PUBLIC_API_URL}))
         try {
-            const res = await fetch('/api/upload/profile', {
+            const res = await fetch(process.env.NEXT_PUBLIC_API_URL+"/auth/profileAvatar", {
                 method: 'POST',
+                headers:{
+                    Authorization:"Bearer "+window.localStorage.getItem("token")
+                },
                 body: formData,
             });
             const result = await res.json();
@@ -72,15 +75,9 @@ export default function ProfileView() {
                     </button>}
                 </form>
             </div>
-            <div className="p-3">
-                <h1 className=" font-bold">Shots</h1>
-                ความยาว ของความแม่น
-            </div>
             <div className=" flex flex-col  *:p-3 *:rounded gap-1">
                 <Link href={pathname + "?page=post"}>Post</Link>
-                <a>Store</a>
                 <a href={pathname + "?page=images"}>Images</a>
-                <a>About</a>
             </div>
 
         </div>

@@ -14,7 +14,7 @@ export default function Menuout() {
     }
     return (
         <div className="peer-checked:flex hidden ">
-            <div className="flex gap-4 items-center p-2 *:hover:bg-red-400 *:active:bg-red-600">
+            <div className="flex gap-4 items-center *:h-full *:p-1 *:hover:bg-red-400 *:active:bg-red-600">
                 <Link href={`/app/Profile/${data.Url}`} className=" flex items-center gap-1 ">
                     {data.Avatar != "" ? <img src={data.Avatar} alt="profileimage" className=" bg-white rounded-full w-[40px]  h-[40px]"></img>
                         : ""}
